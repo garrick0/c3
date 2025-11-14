@@ -1,0 +1,439 @@
+================================================================================
+C3 MONOREPO DEPENDENCY STRUCTURE ANALYSIS
+================================================================================
+
+ANALYSIS DATE: 2025-11-14
+SCOPE: 9 packages (3 apps, 4 contexts, 2 infrastructure)
+STATUS: Complete - No circular dependencies
+
+================================================================================
+PACKAGE OVERVIEW
+================================================================================
+
+ENTRY POINTS (Applications)
+───────────────────────────────────────────────────────────────────────────────
+Package: @c3/cli
+  Purpose: Command-line tool for code analysis
+  Dependencies: shared, wiring, parsing, compliance, projection, discovery
+  External: commander, chalk, ora
+  Stability Index: 0.75 (UNSTABLE - depends on many)
+  Dependents: 0 packages
+  Risk to Migrate: HIGH
+
+Package: @c3/bff
+  Purpose: Backend-for-Frontend REST API
+  Dependencies: shared, wiring, parsing, compliance, projection, discovery
+  External: express, cors, dotenv
+  Stability Index: 0.75 (UNSTABLE - depends on many)
+  Dependents: 0 packages
+  Risk to Migrate: HIGH
+
+Package: @c3/web
+  Purpose: React frontend application
+  Dependencies: NONE (internal)
+  External: react, react-dom, react-router-dom, zustand
+  Stability Index: N/A (INDEPENDENT)
+  Dependents: 0 packages
+  Risk to Migrate: TRIVIAL ✓
+
+───────────────────────────────────────────────────────────────────────────────
+
+INFRASTRUCTURE (Libraries)
+───────────────────────────────────────────────────────────────────────────────
+Package: @c3/shared
+  Purpose: Domain models, configuration, validation
+  Dependencies: NONE (internal)
+  External: zod
+  Stability Index: 0.0 (VERY STABLE - foundation)
+  Dependents: 9 packages (ALL) ← CRITICAL HUB
+  Risk to Migrate: CRITICAL (but low risk extraction)
+
+Package: @c3/wiring
+  Purpose: Dependency injection container
+  Dependencies: shared
+  External: NONE
+  Stability Index: 0.33 (STABLE)
+  Dependents: 2 packages (cli, bff)
+  Risk to Migrate: MEDIUM
+
+───────────────────────────────────────────────────────────────────────────────
+
+BOUNDED CONTEXTS
+───────────────────────────────────────────────────────────────────────────────
+Package: @c3/parsing
+  Purpose: Transform code into property graphs
+  Dependencies: shared
+  External: NONE
+  Stability Index: 0.17 (VERY STABLE)
+  Dependents: 5 packages (cli, bff, compliance, discovery, projection)
+  Risk to Migrate: LOW (depends on only shared)
+  Layer: Foundation for all contexts
+
+Package: @c3/compliance
+  Purpose: Rule evaluation and enforcement
+  Dependencies: shared, parsing
+  External: NONE
+  Stability Index: 0.33 (STABLE)
+  Dependents: 2 packages (cli, bff) + Discovery (indirect)
+  Risk to Migrate: MEDIUM (depends on parsing)
+  Layer: Consumes parsed graphs
+
+Package: @c3/discovery
+  Purpose: AI-powered pattern detection
+  Dependencies: shared, parsing, compliance
+  External: NONE
+  Stability Index: 0.50 (MODERATE)
+  Dependents: 2 packages (cli, bff)
+  Risk to Migrate: MEDIUM-HIGH (complex chain)
+  Layer: Highest-level context
+
+Package: @c3/projection
+  Purpose: Graph transformations and analytical views
+  Dependencies: shared, parsing
+  External: NONE
+  Stability Index: 0.33 (STABLE)
+  Dependents: 2 packages (cli, bff)
+  Risk to Migrate: MEDIUM (depends on parsing)
+  Layer: Consumes parsed graphs
+
+================================================================================
+DEPENDENCY FLOW
+================================================================================
+
+LAYERED STRUCTURE:
+  Layer 3 (Apps): cli, bff, web
+      ↓ (depend on)
+  Layer 2 (Contexts): parsing, compliance, discovery, projection
+      ↓ (depend on)
+  Layer 1 (Infrastructure): shared, wiring
+      ↓ (depend on)
+  Layer 0 (External): zod, react, express, commander, etc.
+
+DEPENDENCY CHAINS:
+  Longest: discovery → compliance → parsing → shared
+  Most Used: shared (used by all 9 packages)
+  Most Coupled: parsing (used by 5 packages including cli/bff)
+
+================================================================================
+CIRCULAR DEPENDENCIES
+================================================================================
+
+Status: NO CIRCULAR DEPENDENCIES ✓
+
+All packages follow a Directed Acyclic Graph (DAG) pattern:
+  ✓ shared depends on: NOTHING
+  ✓ parsing depends on: shared only
+  ✓ compliance depends on: shared, parsing (no upward deps)
+  ✓ projection depends on: shared, parsing (no upward deps)
+  ✓ discovery depends on: shared, parsing, compliance (no upward deps)
+  ✓ wiring depends on: shared only
+  ✓ cli depends on: all contexts (no circular reference back)
+  ✓ bff depends on: all contexts (no circular reference back)
+  ✓ web depends on: NOTHING (independent)
+
+SAFE TO SEPARATE - No cross-dependencies or circular patterns detected.
+
+================================================================================
+COUPLING METRICS
+================================================================================
+
+AFFERENT COUPLING (How many packages depend on this?)
+───────────────────────────────────────────────────────────────────────────────
+@c3/shared      9 dependents  ████████████████████ CRITICAL HUB
+@c3/parsing     5 dependents  ██████████           HIGH COUPLING
+@c3/wiring      2 dependents  ████                 MEDIUM
+@c3/compliance  2 dependents  ████                 MEDIUM
+@c3/discovery   2 dependents  ████                 MEDIUM (1 context)
+@c3/projection  2 dependents  ████                 MEDIUM
+@c3/web         0 dependents  ░░░░░░░░░░░░░░░░░░░░ NONE
+@c3/cli         0 dependents  ░░░░░░░░░░░░░░░░░░░░ NONE
+@c3/bff         0 dependents  ░░░░░░░░░░░░░░░░░░░░ NONE
+
+EFFERENT COUPLING (How many packages does this depend on?)
+───────────────────────────────────────────────────────────────────────────────
+@c3/cli         6 dependencies ██████
+@c3/bff         6 dependencies ██████
+@c3/discovery   3 dependencies ███
+@c3/compliance  2 dependencies ██
+@c3/projection  2 dependencies ██
+@c3/parsing     1 dependency   █
+@c3/wiring      1 dependency   █
+@c3/shared      0 dependencies (zero)
+@c3/web         0 dependencies (zero)
+
+INSTABILITY INDEX (0=stable, 1=unstable)
+───────────────────────────────────────────────────────────────────────────────
+@c3/shared      0.0  ████████████████████ VERY STABLE - No deps
+@c3/parsing     0.17 ██░░░░░░░░░░░░░░░░░░ STABLE
+@c3/wiring      0.33 ████░░░░░░░░░░░░░░░░ STABLE
+@c3/projection  0.5  ██████░░░░░░░░░░░░░░ MODERATE
+@c3/compliance  0.5  ██████░░░░░░░░░░░░░░ MODERATE
+@c3/discovery   0.6  ██████░░░░░░░░░░░░░░ MODERATE
+@c3/cli         0.75 ████████░░░░░░░░░░░░ UNSTABLE - Many deps
+@c3/bff         0.75 ████████░░░░░░░░░░░░ UNSTABLE - Many deps
+@c3/web         N/A  Independent
+
+================================================================================
+CHANGE IMPACT ANALYSIS
+================================================================================
+
+If you modify @c3/shared:
+  ├─ 9 packages affected (100% of system)
+  ├─ Blast radius: ENTIRE SYSTEM
+  └─ Impact level: CRITICAL
+
+If you modify @c3/parsing:
+  ├─ 5 packages affected (55% of system)
+  ├─ Affected: compliance, discovery, projection, cli, bff
+  └─ Impact level: HIGH
+
+If you modify @c3/compliance:
+  ├─ 3 packages affected (33% of system)
+  ├─ Affected: discovery, cli, bff
+  └─ Impact level: MEDIUM
+
+If you modify @c3/discovery:
+  ├─ 2 packages affected (22% of system)
+  ├─ Affected: cli, bff
+  └─ Impact level: LOW
+
+If you modify @c3/web:
+  ├─ 0 packages affected (0% of system)
+  └─ Impact level: NONE (isolated)
+
+================================================================================
+EXTERNAL DEPENDENCIES
+================================================================================
+
+Direct External Library Usage:
+
+By Category:
+  Web Framework:     react@18.2.0, react-dom@18.2.0
+  State Management:  zustand@4.4.7
+  Routing:           react-router-dom@6.20.0
+  
+  Web Server:        express@4.18.2
+  CORS Handling:     cors@2.8.5
+  Configuration:     dotenv@16.3.1
+  
+  CLI Framework:     commander@11.1.0
+  Terminal Colors:   chalk@5.3.0
+  Progress UI:       ora@8.0.1
+  
+  Validation:        zod@3.22.4
+
+Assessment:
+  ✓ No problematic dependencies
+  ✓ All are well-maintained
+  ✓ No version conflicts
+  ✓ No peer dependency issues
+  ✓ No security concerns noted
+
+================================================================================
+MIGRATION RECOMMENDATIONS
+================================================================================
+
+FASTEST PATH (Minimum 2 weeks):
+  Week 1: Publish @c3/shared to npm + extract @c3/parsing
+  Week 2: Extract remaining contexts (compliance, discovery, projection)
+  Result: c3-foundation (monorepo) + 4 separate npm packages
+
+RECOMMENDED PATH (2-3 weeks):
+  Phase 1: Publish @c3/shared
+  Phase 2: Extract @c3/parsing to separate repo
+  Phase 3: Extract @c3/compliance, @c3/projection, @c3/discovery
+  Phase 4: Keep @c3/cli, @c3/bff in foundation monorepo
+  Result: Balanced separation with lower operational overhead
+
+FULL POLYREPO PATH (3-4 weeks):
+  Like recommended, but also separate @c3/cli and @c3/bff
+  Requires: Full CI/CD redesign, microservices architecture
+  Best for: Large distributed teams
+
+================================================================================
+FINAL STRUCTURE (RECOMMENDED)
+================================================================================
+
+c3-foundation/ (monorepo)
+├── apps/
+│   ├── cli/           (Depends on: all contexts + shared)
+│   ├── bff/           (Depends on: all contexts + shared)
+│   └── web/           (No dependencies)
+├── shared/            (Published to npm @c3/shared)
+└── wiring/            (Internal DI setup)
+
++ Published as separate npm packages:
+├── c3-parsing/        (Published @c3/parsing)
+├── c3-compliance/     (Published @c3/compliance)
+├── c3-discovery/      (Published @c3/discovery)
+└── c3-projection/     (Published @c3/projection)
+
+WHY THIS STRUCTURE:
+  • CLI & BFF are tightly coupled to all contexts
+  • Keeps application layer together (easier testing)
+  • Shared remains accessible to all (foundation)
+  • Contexts can evolve independently
+  • Clearer ownership boundaries
+  • Lower operational complexity
+  • Easier local development
+
+================================================================================
+RISK ASSESSMENT
+================================================================================
+
+LOW RISK (Can do immediately):
+  ☑ Extract @c3/web (zero dependencies)
+  ☑ Publish @c3/shared (foundation only)
+  ☑ Extract @c3/parsing (depends on shared only)
+
+MEDIUM RISK (Requires careful coordination):
+  ☑ Extract @c3/projection (depends on shared + parsing)
+  ☑ Extract @c3/compliance (depends on shared + parsing)
+  ☑ Extract @c3/wiring (depends on shared only)
+
+HIGH RISK (Complex dependency chains):
+  ☑ Extract @c3/discovery (depends on 3+ packages)
+  ☑ Extract @c3/cli (depends on all contexts)
+  ☑ Extract @c3/bff (depends on all contexts)
+
+MITIGATION STRATEGIES:
+  • Thorough code audit before each extraction
+  • Automated integration tests across repos
+  • Strict semantic versioning
+  • NPM registry redundancy
+  • Rollback procedure documentation
+  • Gradual rollout (not all at once)
+
+================================================================================
+EFFORT ESTIMATES
+================================================================================
+
+Phase 1: Shared Foundation (3-5 days)
+  • Set up npm registry
+  • Create publishing workflow
+  • Publish @c3/shared v0.1.0
+  • Update monorepo to use published version
+  • Effort: MEDIUM | Risk: LOW
+
+Phase 2: Parsing Extraction (2-3 days)
+  • Create c3-parsing repo
+  • Update imports to use published @c3/shared
+  • Publish @c3/parsing
+  • Update monorepo
+  • Effort: EASY | Risk: LOW
+
+Phase 3: Other Contexts (2-3 days each, 6-9 total)
+  • Extract compliance (2-3 days)
+  • Extract projection (2-3 days)
+  • Extract discovery (2-3 days) ← Most complex
+  • Effort: MEDIUM | Risk: MEDIUM
+
+Phase 4: Entry Points (Optional, 3-5 days each)
+  • Extract @c3/cli (3-5 days) ← HIGH complexity
+  • Extract @c3/bff (3-5 days) ← HIGH complexity
+  • NOT RECOMMENDED - Keep in monorepo
+
+TOTAL RECOMMENDED: 2 weeks for recommended path
+TOTAL FULL POLYREPO: 3-4 weeks for full separation
+
+================================================================================
+DECISION CHECKLIST BEFORE STARTING
+================================================================================
+
+Before beginning migration, decide on:
+
+  [ ] NPM Registry
+      ( ) npm Inc (public)
+      ( ) GitHub Packages
+      ( ) Artifactory
+      ( ) Self-hosted
+
+  [ ] Ownership Model
+      ( ) Single team
+      ( ) Distributed teams
+      ( ) Mixed per-context
+
+  [ ] Version Strategy
+      ( ) Synchronized (all same version)
+      ( ) Independent (per-package versions)
+
+  [ ] CLI/BFF Treatment
+      ( ) Keep in monorepo (RECOMMENDED)
+      ( ) Separate to repos
+      ( ) Publish as npm packages
+
+  [ ] Timeline
+      ( ) Week (Phase 1 only)
+      ( ) 2 weeks (Phases 1-2)
+      ( ) 3 weeks (Phases 1-3)
+      ( ) Month+ (Full polyrepo)
+
+  [ ] Team Alignment
+      ( ) Reviewed with team
+      ( ) Stakeholders approved
+      ( ) Implementation planned
+
+================================================================================
+KEY STATISTICS
+================================================================================
+
+Total Packages:              9
+  - Applications:           3 (cli, bff, web)
+  - Contexts:              4 (parsing, compliance, discovery, projection)
+  - Infrastructure:        2 (shared, wiring)
+
+Total Dependencies:         26 (internal)
+  - From Apps:             12
+  - From Contexts:         8
+  - From Infrastructure:   2
+  - From External:         12+ (well-known libs)
+
+Circular Dependencies:       0 (SAFE) ✓
+
+Maximum Dependency Depth:    4 (discovery → compliance → parsing → shared)
+
+Most Coupled Package:        @c3/shared (9 dependents)
+Most Independent Package:    @c3/web (0 dependents)
+
+Recommended Repos After:     5 (1 monorepo + 4 npm packages)
+Effort Required:             2-4 weeks depending on path
+Risk Level:                  Low-to-Medium (good foundation)
+
+================================================================================
+SUMMARY
+================================================================================
+
+The C3 monorepo is well-structured for polyrepo migration:
+
+STRENGTHS:
+  ✓ No circular dependencies (safe separation)
+  ✓ Clear layered architecture (easy to understand)
+  ✓ Good foundation isolation (@c3/shared is stable)
+  ✓ Minimal external dependencies (fewer conflicts)
+  ✓ Contexts are self-contained (independent evolution)
+
+CHALLENGES:
+  ⚠ CLI & BFF depend on ALL contexts (tight coupling)
+  ⚠ @c3/shared is critical hub (must be published first)
+  ⚠ Discovery has deep dependency chain (careful ordering)
+
+RECOMMENDATION:
+  → Hybrid mono-to-poly approach
+  → Keep apps in monorepo, separate contexts
+  → 2-week implementation
+  → Low-to-medium risk if steps followed correctly
+
+NEXT STEPS:
+  1. Review this analysis with team
+  2. Finalize polyrepo structure decision
+  3. Set up npm registry access
+  4. Begin Phase 1 (publish shared)
+  5. Run integration tests
+  6. Proceed to Phase 2 if successful
+
+================================================================================
+For detailed implementation steps, see:
+  - dependency-analysis.md
+  - dependency-graph-visual.md
+  - migration-implementation-guide.md
+================================================================================

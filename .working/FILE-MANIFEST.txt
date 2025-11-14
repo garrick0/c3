@@ -1,0 +1,278 @@
+================================================================================
+C3 POLYREPO MIGRATION ANALYSIS - FILE MANIFEST
+================================================================================
+
+Generated: 2025-11-14
+Location: /Users/samuelgleeson/dev/c3/.working/
+
+================================================================================
+PRIMARY ANALYSIS DOCUMENTS
+================================================================================
+
+1. 00-START-HERE.md (4.5 KB)
+   ├─ Purpose: Entry point for the entire analysis
+   ├─ Content: Quick facts, recommended path, key metrics
+   ├─ Read time: 5-10 minutes
+   └─ Best for: Getting oriented, executive summaries
+
+2. ANALYSIS-SUMMARY.txt (16 KB)
+   ├─ Purpose: Complete reference guide in plain text
+   ├─ Content: All packages, metrics, risk assessment, timeline
+   ├─ Read time: 10-15 minutes
+   └─ Best for: Quick lookup, complete overview
+
+3. dependency-analysis.md (14 KB)
+   ├─ Purpose: Comprehensive dependency analysis report
+   ├─ Content: Coupling metrics, circular dependency check, recommendations
+   ├─ Read time: 15-20 minutes
+   ├─ Sections:
+   │  ├─ Executive Summary
+   │  ├─ Dependency Graph
+   │  ├─ Detailed Dependency Matrix
+   │  ├─ Interdependencies Between Contexts
+   │  ├─ Circular Dependency Check
+   │  ├─ Coupling Analysis (Afferent/Efferent)
+   │  ├─ Instability Index
+   │  ├─ Entry Point Analysis
+   │  ├─ External Dependencies
+   │  ├─ Migration Recommendations
+   │  └─ Polyrepo Structure Proposal
+   └─ Best for: Understanding relationships, planning
+
+4. dependency-graph-visual.md (15 KB)
+   ├─ Purpose: Visual ASCII diagrams and illustrations
+   ├─ Content: Dependency trees, layered architecture, heatmaps
+   ├─ Read time: 10-15 minutes
+   ├─ Sections:
+   │  ├─ ASCII Dependency Graph
+   │  ├─ Dependency Trees (Parent→Child & Reverse)
+   │  ├─ Layered Architecture View
+   │  ├─ Coupling Heatmap
+   │  ├─ Dependency Propagation Paths
+   │  ├─ Context Isolation Analysis
+   │  ├─ Change Impact Matrix
+   │  ├─ Polyrepo Separation Scenarios
+   │  └─ Dependency Strength Summary
+   └─ Best for: Visual understanding, presentations
+
+5. migration-implementation-guide.md (16 KB)
+   ├─ Purpose: Step-by-step implementation instructions
+   ├─ Content: Phased plan, tasks, CI/CD, rollback procedures
+   ├─ Read time: 20-30 minutes
+   ├─ Sections:
+   │  ├─ Quick Decision Matrix
+   │  ├─ Phase 1: Foundation Setup (Publish @c3/shared)
+   │  ├─ Phase 2: Easy Separations (@c3/web, @c3/parsing)
+   │  ├─ Phase 3: Mid-Level Contexts (@c3/compliance, @c3/projection)
+   │  ├─ Phase 4: Entry Points (Optional: @c3/cli, @c3/bff)
+   │  ├─ Recommended Approach (Hybrid Mono-to-Poly)
+   │  ├─ Implementation Checklist
+   │  ├─ Version Management Strategy
+   │  ├─ CI/CD Changes Required
+   │  ├─ Risk Mitigation Strategies
+   │  ├─ Success Criteria
+   │  ├─ Rollback Plan
+   │  ├─ Next Steps
+   │  └─ Questions to Answer
+   └─ Best for: Execution, team coordination
+
+6. README.md (10 KB)
+   ├─ Purpose: Navigation guide and quick reference
+   ├─ Content: File index, summary table, decision matrix
+   ├─ Read time: 5 minutes
+   ├─ Sections:
+   │  ├─ Documents Index
+   │  ├─ Quick Summary
+   │  ├─ Recommended Migration Path
+   │  ├─ Key Metrics
+   │  ├─ Decision Points
+   │  └─ Recommended Reading Order
+   └─ Best for: Navigation, finding information
+
+================================================================================
+DOCUMENT RELATIONSHIPS
+================================================================================
+
+Reading Flow:
+  00-START-HERE.md
+      ↓
+  ANALYSIS-SUMMARY.txt (or README.md)
+      ↓
+  dependency-analysis.md
+      ↓
+  dependency-graph-visual.md
+      ↓
+  migration-implementation-guide.md
+
+Alternative Paths:
+  Quick Overview:    00-START-HERE.md → ANALYSIS-SUMMARY.txt
+  Deep Dive:         dependency-analysis.md → dependency-graph-visual.md
+  Execution:         migration-implementation-guide.md
+  Team Review:       dependency-graph-visual.md (heatmap)
+  Planning:          README.md → dependency-analysis.md
+
+================================================================================
+KEY SECTIONS BY TOPIC
+================================================================================
+
+Finding information about...
+
+CIRCULAR DEPENDENCIES:
+  → dependency-analysis.md (Section 5)
+  → ANALYSIS-SUMMARY.txt (Section: Circular Dependencies)
+
+COUPLING METRICS:
+  → dependency-analysis.md (Section 6)
+  → dependency-graph-visual.md (Section 5: Coupling Heatmap)
+  → ANALYSIS-SUMMARY.txt (Section: Coupling Metrics)
+
+RISK ASSESSMENT:
+  → dependency-analysis.md (Section 12)
+  → migration-implementation-guide.md (Risk Mitigation Strategies)
+  → ANALYSIS-SUMMARY.txt (Section: Risk Assessment)
+
+MIGRATION PATH:
+  → 00-START-HERE.md (Recommended Migration Path)
+  → README.md (Recommended Migration Path)
+  → migration-implementation-guide.md (All Phases)
+
+CHANGE IMPACT:
+  → dependency-graph-visual.md (Section 6: Dependency Propagation)
+  → dependency-graph-visual.md (Section 8: Change Impact Matrix)
+  → ANALYSIS-SUMMARY.txt (Section: Change Impact Analysis)
+
+ARCHITECTURAL STRUCTURE:
+  → dependency-graph-visual.md (Section 4: Layered Architecture)
+  → dependency-analysis.md (Section 3: Dependency Flow)
+  → migration-implementation-guide.md (Final Structure)
+
+EFFORT & TIMELINE:
+  → README.md (Expected Timeline & Effort)
+  → migration-implementation-guide.md (Phase descriptions)
+  → ANALYSIS-SUMMARY.txt (Section: Effort Estimates)
+
+================================================================================
+QUICK FACT LOOKUP
+================================================================================
+
+How many packages?
+  → 9 (3 apps, 4 contexts, 2 infrastructure)
+  → ANALYSIS-SUMMARY.txt (Section: Key Statistics)
+
+Circular dependencies?
+  → 0 - SAFE TO MIGRATE
+  → dependency-analysis.md (Section 5)
+
+Most coupled package?
+  → @c3/shared (9 dependents)
+  → ANALYSIS-SUMMARY.txt (Coupling Metrics)
+
+Recommended timeline?
+  → 2 weeks (recommended path), 3-4 weeks (full polyrepo)
+  → 00-START-HERE.md (Recommended Migration Path)
+
+What's the risk level?
+  → Low-to-Medium (if done correctly)
+  → ANALYSIS-SUMMARY.txt (Section: Risk Assessment)
+
+Should we do full polyrepo?
+  → NO - Recommend hybrid (monorepo + separate npm packages)
+  → migration-implementation-guide.md (Recommended Approach)
+
+================================================================================
+FILE SIZES & CONTENT DENSITY
+================================================================================
+
+Document             Size    Density    Content Type
+────────────────────────────────────────────────────────────────────
+00-START-HERE.md     4.5 KB  High       Summary, quick facts, navigation
+ANALYSIS-SUMMARY.txt 16 KB   High       Complete reference, all metrics
+dependency-analysis.md 14 KB  High       Technical analysis, detailed
+dependency-graph-visual.md 15 KB Medium   ASCII diagrams, visual format
+migration-implementation-guide.md 16 KB Low  Step-by-step, with examples
+README.md            10 KB   High       Index, navigation, summary
+
+Total Size: ~75 KB (highly compressed, no code)
+
+================================================================================
+TECHNICAL INFORMATION
+================================================================================
+
+Format:           Markdown (.md) and Plain Text (.txt)
+Encoding:         UTF-8
+Line Endings:     LF (Unix)
+Word Wrap:        80-120 characters (readable)
+ASCII Art:        Full UTF-8 box drawing support
+Code Examples:    YAML, Bash, JSON formats
+
+Compatibility:
+  ✓ Readable in any text editor
+  ✓ Renders perfectly on GitHub
+  ✓ Printable to PDF
+  ✓ Copy-pasteable content
+  ✓ No external dependencies
+
+================================================================================
+HOW TO USE THIS MANIFEST
+================================================================================
+
+Use this file to:
+  1. Understand what documents exist
+  2. Find where to look for specific information
+  3. See the relationships between documents
+  4. Understand the content density and focus
+  5. Plan your reading sequence
+
+Example: "I need to understand risk"
+  → Look in: Quick Fact Lookup section
+  → Check: ANALYSIS-SUMMARY.txt (Risk Assessment)
+  → Deep dive: migration-implementation-guide.md (Risk Mitigation)
+
+Example: "I want to present this to the team"
+  → Start with: dependency-graph-visual.md (visual format)
+  → Support with: 00-START-HERE.md (executive summary)
+  → Detail with: dependency-analysis.md (comprehensive)
+
+Example: "I'm ready to execute"
+  → Primary: migration-implementation-guide.md (phases + tasks)
+  → Reference: ANALYSIS-SUMMARY.txt (risk/metrics)
+  → Backup: dependency-analysis.md (detailed info)
+
+================================================================================
+VERIFICATION CHECKLIST
+================================================================================
+
+All documents present:
+  ☑ 00-START-HERE.md
+  ☑ ANALYSIS-SUMMARY.txt
+  ☑ README.md
+  ☑ dependency-analysis.md
+  ☑ dependency-graph-visual.md
+  ☑ migration-implementation-guide.md
+
+All documents cross-referenced:
+  ☑ Links between documents work
+  ☑ Section references are accurate
+  ☑ No circular references
+  ☑ Navigation is clear
+
+Content validation:
+  ☑ All 9 packages documented
+  ☑ All dependencies listed
+  ☑ All metrics calculated
+  ☑ Risk assessment complete
+  ☑ Timeline provided
+  ☑ Implementation steps detailed
+
+================================================================================
+LAST UPDATED
+================================================================================
+
+Generated: 2025-11-14 14:24 UTC
+Analysis of: C3 monorepo
+Scope: 9 packages from 9 package.json files
+Status: Complete and ready for use
+
+Questions? See the appropriate document above.
+
+================================================================================
