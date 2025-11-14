@@ -1,0 +1,37 @@
+{
+  "name": "c3",
+  "version": "0.1.0",
+  "description": "Code Standards Management System",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "contexts/*"
+  ],
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "scripts": {
+    "dev": "./scripts/dev.sh",
+    "build": "./scripts/build.sh",
+    "test": "./scripts/test.sh",
+    "test:unit": "vitest run",
+    "test:integration": "vitest run --config vitest.integration.config.ts",
+    "test:e2e": "vitest run --config vitest.e2e.config.ts",
+    "lint": "eslint . --ext .ts,.tsx",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf node_modules apps/*/node_modules contexts/*/node_modules apps/*/dist contexts/*/dist"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "eslint": "^8.56.0",
+    "typescript": "^5.3.3",
+    "vitest": "^1.0.4",
+    "tsx": "^4.7.0"
+  },
+  "dependencies": {
+    "zod": "^3.22.4"
+  }
+}

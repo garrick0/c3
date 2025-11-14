@@ -1,0 +1,35 @@
+%% Bounded Context Map
+graph LR
+    subgraph "Parsing Context"
+        P_DOMAIN[Domain<br/>PropertyGraph, Node, Edge]
+        P_APP[Application<br/>Parse Use Cases]
+        P_INFRA[Infrastructure<br/>TS/Python Parsers]
+    end
+
+    subgraph "Compliance Context"
+        C_DOMAIN[Domain<br/>Rule, Violation, Fix]
+        C_APP[Application<br/>Check/Fix Use Cases]
+        C_INFRA[Infrastructure<br/>Evaluators, Fixers]
+    end
+
+    subgraph "Projection Context"
+        PR_DOMAIN[Domain<br/>Projections, Views]
+        PR_APP[Application<br/>Generate Projections]
+        PR_INFRA[Infrastructure<br/>Renderers, Exporters]
+    end
+
+    subgraph "Discovery Context"
+        D_DOMAIN[Domain<br/>Pattern, CandidateRule]
+        D_APP[Application<br/>Discover/Infer Use Cases]
+        D_INFRA[Infrastructure<br/>LLM, Matchers]
+    end
+
+    P_APP -->|PropertyGraph| C_APP
+    P_APP -->|PropertyGraph| PR_APP
+    P_APP -->|PropertyGraph| D_APP
+    D_APP -->|CandidateRules| C_APP
+
+    style P_DOMAIN fill:#ffe1e1
+    style C_DOMAIN fill:#e1ffe1
+    style PR_DOMAIN fill:#e1e1ff
+    style D_DOMAIN fill:#ffe1ff

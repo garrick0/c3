@@ -1,0 +1,38 @@
+%% Clean Architecture Layers (per Context)
+graph TD
+    subgraph "Presentation Layer"
+        CTRL[Controllers<br/>HTTP/CLI Handlers]
+    end
+
+    subgraph "Application Layer"
+        UC[Use Cases<br/>ParseCodebase<br/>CheckCompliance]
+        DTO[DTOs<br/>Request/Response]
+    end
+
+    subgraph "Domain Layer"
+        ENT[Entities<br/>PropertyGraph<br/>Rule]
+        SVC[Services<br/>ParsingService<br/>EvaluationEngine]
+        PORT[Ports<br/>Parser Interface<br/>Repository Interface]
+    end
+
+    subgraph "Infrastructure Layer"
+        ADAPT[Adapters<br/>TypeScriptParser<br/>InMemoryRepository]
+        EXT[External<br/>File System<br/>Database<br/>LLM API]
+    end
+
+    CTRL --> UC
+    UC --> DTO
+    UC --> SVC
+    SVC --> ENT
+    SVC --> PORT
+    PORT -.implements.- ADAPT
+    ADAPT --> EXT
+
+    style CTRL fill:#e1f5ff
+    style UC fill:#fff4e1
+    style DTO fill:#fff4e1
+    style ENT fill:#ffe1e1
+    style SVC fill:#ffe1e1
+    style PORT fill:#ffe1e1
+    style ADAPT fill:#e1ffe1
+    style EXT fill:#f0f0f0

@@ -1,0 +1,17 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": ".",
+    "composite": true
+  },
+  "references": [
+    { "path": "../shared" },
+    { "path": "../contexts/parsing" },
+    { "path": "../contexts/compliance" },
+    { "path": "../contexts/projection" },
+    { "path": "../contexts/discovery" }
+  ],
+  "include": ["./**/*"],
+  "exclude": ["node_modules", "dist"]
+}
