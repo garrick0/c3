@@ -1,0 +1,41 @@
+%% Data Flow Through C3
+sequenceDiagram
+    participant User
+    participant CLI
+    participant DI as DI Container
+    participant Parse as Parsing Context
+    participant Comp as Compliance Context
+    participant Proj as Projection Context
+    participant Disc as Discovery Context
+
+    User->>CLI: c3 check ./my-project
+
+    CLI->>DI: Get ParsingService
+    DI-->>CLI: ParsingService instance
+
+    CLI->>Parse: parseCodebase(path)
+    Parse-->>CLI: PropertyGraph
+
+    CLI->>DI: Get EvaluationEngine
+    DI-->>CLI: EvaluationEngine instance
+
+    CLI->>Comp: evaluate(graph, rules)
+    Comp-->>CLI: ComplianceReport
+
+    CLI->>User: Display violations
+
+    opt Generate Visualization
+        CLI->>DI: Get ProjectionEngine
+        DI-->>CLI: ProjectionEngine
+        CLI->>Proj: project(graph, config)
+        Proj-->>CLI: Projection
+    end
+
+    opt Discover Patterns
+        CLI->>DI: Get PatternDetectionService
+        DI-->>CLI: PatternDetectionService
+        CLI->>Disc: detectPatterns(graph)
+        Disc-->>CLI: Patterns[]
+        CLI->>Disc: inferRules(patterns)
+        Disc-->>CLI: CandidateRules[]
+    end

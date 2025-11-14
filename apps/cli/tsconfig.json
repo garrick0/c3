@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "composite": true
+  },
+  "references": [
+    { "path": "../../shared" },
+    { "path": "../../wiring" },
+    { "path": "../../contexts/parsing" },
+    { "path": "../../contexts/compliance" },
+    { "path": "../../contexts/projection" },
+    { "path": "../../contexts/discovery" }
+  ],
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "**/*.test.ts"]
+}

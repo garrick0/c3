@@ -1,0 +1,22 @@
+{
+  "name": "@c3/projection",
+  "version": "0.1.0",
+  "description": "Projection context - Graph transformations and analytical views",
+  "type": "module",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@c3/shared": "file:../../shared",
+    "@c3/parsing": "file:../parsing"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.3",
+    "vitest": "^1.0.4"
+  }
+}

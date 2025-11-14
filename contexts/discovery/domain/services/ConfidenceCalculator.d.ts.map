@@ -1,0 +1,1 @@
+{"version":3,"file":"ConfidenceCalculator.d.ts","sourceRoot":"","sources":["ConfidenceCalculator.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,MAAM,0CAA0C,CAAC;AACnE,OAAO,EAAE,eAAe,EAAE,MAAM,qCAAqC,CAAC;AAEtE,qBAAa,oBAAoB;IAC/B,SAAS,CAAC,OAAO,EAAE,OAAO,GAAG,eAAe;IAQ5C,qBAAqB,CAAC,aAAa,EAAE,MAAM,EAAE,gBAAgB,EAAE,MAAM,EAAE,GAAG,MAAM;CAKjF"}

@@ -1,0 +1,51 @@
+%% System Overview - C3 Architecture
+graph TB
+    subgraph "Entry Points"
+        CLI[CLI Application<br/>Commander]
+        BFF[BFF API<br/>Express]
+        WEB[Web UI<br/>React]
+    end
+
+    subgraph "Wiring Layer"
+        DI[DI Container<br/>Dependency Injection]
+    end
+
+    subgraph "Bounded Contexts"
+        PARSE[Parsing Context<br/>Code → Graph]
+        COMP[Compliance Context<br/>Rules & Evaluation]
+        PROJ[Projection Context<br/>Graph Transformations]
+        DISC[Discovery Context<br/>AI Patterns]
+    end
+
+    subgraph "Shared"
+        SHARED[Shared Domain<br/>Infrastructure]
+    end
+
+    CLI --> DI
+    BFF --> DI
+    WEB --> BFF
+
+    DI --> PARSE
+    DI --> COMP
+    DI --> PROJ
+    DI --> DISC
+
+    PARSE --> SHARED
+    COMP --> SHARED
+    PROJ --> SHARED
+    DISC --> SHARED
+
+    COMP -.depends on.-> PARSE
+    PROJ -.depends on.-> PARSE
+    DISC -.depends on.-> PARSE
+    DISC -.depends on.-> COMP
+
+    style CLI fill:#e1f5ff
+    style BFF fill:#e1f5ff
+    style WEB fill:#e1f5ff
+    style PARSE fill:#fff4e1
+    style COMP fill:#fff4e1
+    style PROJ fill:#fff4e1
+    style DISC fill:#fff4e1
+    style DI fill:#f0f0f0
+    style SHARED fill:#f0f0f0

@@ -1,0 +1,1 @@
+{"version":3,"file":"RegexPatternMatcher.js","sourceRoot":"","sources":["RegexPatternMatcher.ts"],"names":[],"mappings":"AAKA,MAAM,OAAO,mBAAmB;IAC9B,KAAK,CAAC,KAAK,CAAC,KAAoB;QAC9B,OAAO,EAAE,CAAC;IACZ,CAAC;IAED,QAAQ,CAAC,WAAmB;QAC1B,OAAO,WAAW,KAAK,QAAQ,CAAC;IAClC,CAAC;IAED,OAAO;QACL,OAAO,qBAAqB,CAAC;IAC/B,CAAC;CACF"}
