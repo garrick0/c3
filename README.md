@@ -1,272 +1,93 @@
-# C3 - Code Standards Management System
+# C3 - Code Standards Management System (Archived Monorepo)
 
-> AI-powered code standards enforcement and architectural compliance tool
+> ⚠️ **This repository has been migrated to a polyrepo structure**
 
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue.svg)](https://www.typescriptlang.org/)
-[![Node](https://img.shields.io/badge/Node-18+-green.svg)](https://nodejs.org/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+This monorepo is archived and no longer actively developed. All development has moved to separate repositories.
 
-## Overview
+## New Polyrepo Structure
 
-C3 analyzes codebases to detect patterns, enforce architectural rules, and maintain code standards. It uses AI to discover implicit standards and provides automated remediation strategies.
+C3 is now split into 10 focused repositories:
 
-## Features
+### 🏗️ Platform
+**Start Here:** [c3-platform](https://github.com/garrick0/c3-platform) - Orchestration, scripts, and documentation
 
-### 🔍 **Parse & Analyze**
-Transform any codebase into a property graph representation, capturing files, classes, functions, and their relationships.
+### 📦 Libraries
+- [c3-shared](https://github.com/garrick0/c3-shared) - Core domain abstractions (NPM: `c3-shared`)
+- [c3-parsing](https://github.com/garrick0/c3-parsing) - Code parsing & property graphs (NPM: `c3-parsing`)
+- [c3-compliance](https://github.com/garrick0/c3-compliance) - Rules evaluation (NPM: `c3-compliance`)
+- [c3-projection](https://github.com/garrick0/c3-projection) - Graph transformations (NPM: `c3-projection`)
+- [c3-discovery](https://github.com/garrick0/c3-discovery) - AI pattern detection (NPM: `c3-discovery`)
+- [c3-wiring](https://github.com/garrick0/c3-wiring) - Dependency injection (NPM: `c3-wiring`)
 
-### 🤖 **AI-Powered Discovery**
-Automatically detect patterns and infer architectural rules from your existing codebase using Claude AI.
+### 🖥️ Applications
+- [c3-cli](https://github.com/garrick0/c3-cli) - Command-line interface (NPM: `c3-cli`)
+- [c3-bff](https://github.com/garrick0/c3-bff) - Backend-for-frontend API (NPM: `c3-bff`)
+- [c3-web](https://github.com/garrick0/c3-web) - React web interface (NPM: `c3-web`)
 
-### ✅ **Compliance Checking**
-Evaluate your code against configured rules and architectural standards, catching violations early.
-
-### 📊 **Visual Analytics**
-Project your codebase into multiple views: module dependencies, layer diagrams, component graphs, and more.
-
-### 🔧 **Automated Remediation**
-Get automated fix suggestions and apply them with confidence.
-
-## Quick Start
-
-### Installation
+## Getting Started with Polyrepo
 
 ```bash
-# Clone and setup
-git clone <repository-url>
-cd c3
-./scripts/setup.sh
+# Clone the platform repository
+git clone https://github.com/garrick0/c3-platform
+cd c3-platform
 
-# Configure environment
-cp .env.example .env
-# Edit .env and add your ANTHROPIC_API_KEY
+# Setup everything
+./scripts/setup-dev.sh
+
+# Link packages
+./scripts/link-all.sh
+
+# Build all
+./scripts/build-all.sh
 ```
 
-### Using CLI
+See [c3-platform/GETTING-STARTED.md](https://github.com/garrick0/c3-platform/blob/main/GETTING-STARTED.md) for complete guide.
 
-```bash
-# Link CLI globally
-cd apps/cli && npm link
+## Why Polyrepo?
 
-# Initialize in your project
-cd /path/to/your/project
-c3 init
+The migration to polyrepo architecture provides:
 
-# Discover patterns automatically
-c3 discover .
+- ✅ **Easier for AI agents** - Smaller, focused codebases
+- ✅ **Clear boundaries** - Each context is truly independent
+- ✅ **Better navigation** - Less nesting, clearer structure
+- ✅ **Independent versioning** - Contexts can evolve separately
+- ✅ **Parallel development** - Work on contexts without conflicts
 
-# Check compliance
-c3 check .
+## Migration Documentation
 
-# Generate visualization
-c3 visualize . --type module
-```
+Complete migration documentation is in `.working/`:
 
-### Using Web UI
+- **polyrepo-implementation-plan.md** - 6-phase implementation plan
+- **polyrepo-migration-summary.md** - Overall summary
+- **phase-1-complete.md** through **phase-4-complete.md** - Phase details
+- **dependency-analysis.md** - Detailed dependency analysis
 
-```bash
-# Start BFF server
-cd apps/bff && npm run dev
+## Monorepo Archive
 
-# Start web frontend (new terminal)
-cd apps/web && npm run dev
+This repository is tagged as:
+- `monorepo-final-v0.1.0` - Final state before migration
+- Branch: `polyrepo` - Contains migration documentation
 
-# Open http://localhost:5173
-```
+### Original Monorepo Stats
+- **Files:** 602
+- **Lines:** 26,856
+- **Packages:** 10 (apps/*, contexts/*, shared, wiring)
+- **Architecture:** Modular monolith with bounded contexts
 
-## Architecture
+## What Was C3?
 
-C3 is built as a **modular monolith** with **4 bounded contexts**:
+C3 (Code Standards Management System) is an AI-powered tool for enforcing code standards and architectural compliance. It:
 
-```
-┌─────────────────┐
-│  Parsing        │  Transform code → Property Graph
-└────────┬────────┘
-         │
-         ├────────→ ┌──────────────┐
-         │          │ Compliance   │  Rules, Evaluation, Fixes
-         │          └──────────────┘
-         │
-         ├────────→ ┌──────────────┐
-         │          │ Projection   │  Graph Transformations & Views
-         │          └──────────────┘
-         │
-         └────────→ ┌──────────────┐
-                    │ Discovery    │  AI Pattern Detection
-                    └──────────────┘
-```
-
-Each context follows **Clean Architecture** with clear separation of:
-- **Domain Layer** - Business logic and entities
-- **Application Layer** - Use cases and orchestration
-- **Infrastructure Layer** - External integrations
-- **Presentation Layer** - HTTP/CLI interfaces
-
-## Project Structure
-
-```
-c3/
-├── apps/           # Entry points
-│   ├── cli/       # Command-line interface
-│   ├── bff/       # Backend-for-Frontend API
-│   └── web/       # React web application
-├── contexts/       # Bounded contexts (domain logic)
-│   ├── parsing/   # Code parsing and graph building
-│   ├── compliance/# Rule management and evaluation
-│   ├── projection/# Graph transformations
-│   └── discovery/ # AI-powered pattern detection
-├── shared/         # Shared domain and infrastructure
-├── wiring/         # Dependency injection
-├── config/         # Configuration management
-└── docs/           # Documentation
-```
-
-## Key Concepts
-
-### Property Graph
-Universal representation of your codebase as nodes (files, classes, functions) and edges (dependencies, calls, imports).
-
-### Rules & Compliance
-Define standards as rules, evaluate your code against them, and track violations with configurable severity levels.
-
-### Projections
-Transform the property graph into different analytical views: module-level dependencies, architectural layers, component relationships.
-
-### Pattern Discovery
-AI analyzes your codebase to detect implicit patterns and suggests rules based on your existing practices.
-
-## Configuration
-
-Create `architecture.config.ts` in your project:
-
-```typescript
-export default {
-  version: '1.0',
-  extends: ['@c3/recommended'],
-
-  architecture: {
-    style: 'clean',
-    layers: [
-      { name: 'domain', path: 'src/domain' },
-      { name: 'application', path: 'src/application' },
-      { name: 'infrastructure', path: 'src/infrastructure' }
-    ]
-  },
-
-  rules: {
-    'no-circular-dependencies': 'error',
-    'consistent-naming': ['warn', { style: 'kebab-case' }],
-    'layer-dependencies': ['error', { flow: 'inward' }]
-  }
-}
-```
-
-## Documentation
-
-- **[Getting Started](docs/guides/getting-started.md)** - Installation and first steps
-- **[CLI Reference](docs/guides/cli-reference.md)** - Complete command reference
-- **[Configuration Guide](docs/guides/configuration.md)** - Config file reference
-- **[Architecture Overview](docs/architecture/overview.md)** - System design
-- **[API Reference](docs/api/rest-api.md)** - REST API documentation
-
-[Full Documentation →](docs/README.md)
-
-## Development
-
-### Prerequisites
-- Node.js 18+
-- npm 9+
-
-### Setup Development Environment
-
-```bash
-# Install dependencies
-npm install
-
-# Build all packages
-npm run build
-
-# Run tests
-npm run test
-
-# Development mode (watch)
-npm run dev
-```
-
-### Project Commands
-
-```bash
-npm run build        # Build all packages
-npm run test         # Run all tests
-npm run test:unit    # Unit tests only
-npm run test:e2e     # E2E tests only
-npm run lint         # Lint code
-npm run typecheck    # Type check
-```
-
-## Technology Stack
-
-- **TypeScript** - Type-safe codebase
-- **Node.js** - Runtime environment
-- **Express** - BFF API server
-- **React** - Web frontend
-- **Vite** - Frontend bundler
-- **Vitest** - Testing framework
-- **Commander** - CLI framework
-- **Zod** - Schema validation
-- **Claude AI** - Pattern detection
-
-## Contributing
-
-We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
-### Quick Contribution Guide
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Make your changes
-4. Run tests (`npm test`)
-5. Commit your changes (`git commit -m 'Add amazing feature'`)
-6. Push to branch (`git push origin feature/amazing-feature`)
-7. Open a Pull Request
+1. **Parses** codebases into property graphs
+2. **Discovers** patterns using Claude AI
+3. **Evaluates** code against rules
+4. **Projects** multiple analytical views
+5. **Remediates** violations automatically
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) for details
-
-## Support
-
-- **Documentation**: [docs/](docs/)
-- **Issues**: [GitHub Issues](https://github.com/your-org/c3/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/your-org/c3/discussions)
-
-## Roadmap
-
-### Current (MVP - v0.1)
-- ✅ Core architecture and bounded contexts
-- ✅ Property graph parsing
-- ✅ Basic compliance checking
-- ✅ Pattern discovery with AI
-- ✅ CLI, API, and Web interfaces
-
-### Next (v0.2)
-- [ ] Real TypeScript/JavaScript parser implementation
-- [ ] Complete rule evaluator implementations
-- [ ] Interactive visualizations with D3.js
-- [ ] Persistent storage (PostgreSQL)
-- [ ] Enhanced Web UI
-
-### Future
-- [ ] IDE plugins (VS Code, JetBrains)
-- [ ] CI/CD integrations
-- [ ] Git hooks
-- [ ] Multi-language support
-- [ ] Custom plugin marketplace
-
-## Acknowledgments
-
-Built with Clean Architecture, Domain-Driven Design, and Feature-Sliced Design principles.
+MIT
 
 ---
 
-**Made with ❤️ for better code quality**
+**For current development, see:** https://github.com/garrick0/c3-platform
