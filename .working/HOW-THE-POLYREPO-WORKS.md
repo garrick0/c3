@@ -815,38 +815,30 @@ done
 
 ### 2. setup-dev.sh
 
-**Purpose:** Complete development environment setup (first-time users)
+**Purpose:** Complete development environment setup
 
 **What it does:**
 ```bash
-# 1. Clone all repos (calls clone-all.sh)
-./scripts/clone-all.sh
-# Skips repos that already exist
-
-# 2. Install dependencies in each
-for repo in c3-shared c3-parsing ...; do
-  cd ../$repo
-  npm install
+# 1. Check if repos already exist
+existing_count=0
+for repo in repos; do
+  if [ -d "../$repo" ]; then ((existing_count++)); fi
 done
 
-# 3. Done! Now link and build
-```
+# 2. If repos exist, prompt user
+if [ $existing_count -gt 0 ]; then
+  echo "Found $existing_count existing repositories"
+  echo "1. Skip cloning, just install (recommended)"
+  echo "2. Run clone-all.sh anyway"
+  read choice
+fi
 
-**When to use:**
-- First time setup (no repos exist)
-- Will skip existing repos (safe to re-run)
+# 3. Clone if needed
+if [ choice = 2 ] || [ $existing_count = 0 ]; then
+  ./scripts/clone-all.sh
+fi
 
-**Note:** If repos already exist, use `./scripts/install-all.sh` instead (faster)
-
----
-
-### 2b. install-all.sh
-
-**Purpose:** Install dependencies in existing repos (post-migration scenario)
-
-**What it does:**
-```bash
-# Install dependencies in each repo
+# 4. Install dependencies in each
 for repo in c3-shared c3-parsing ...; do
   cd ../$repo
   npm install
@@ -854,9 +846,14 @@ done
 ```
 
 **When to use:**
-- Repos already cloned (like after manual migration)
-- After pulling package.json changes
-- Faster than setup-dev.sh (skips clone step)
+- First time setup (clones + installs)
+- Post-migration setup (detects existing repos, just installs)
+- Safe to re-run anytime
+
+**Smart behavior:**
+- Detects existing repos automatically
+- Prompts you to skip cloning if repos exist
+- Always installs dependencies
 
 ---
 
