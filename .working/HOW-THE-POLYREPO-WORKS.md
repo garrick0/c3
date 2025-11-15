@@ -815,12 +815,13 @@ done
 
 ### 2. setup-dev.sh
 
-**Purpose:** Complete development environment setup
+**Purpose:** Complete development environment setup (first-time users)
 
 **What it does:**
 ```bash
 # 1. Clone all repos (calls clone-all.sh)
 ./scripts/clone-all.sh
+# Skips repos that already exist
 
 # 2. Install dependencies in each
 for repo in c3-shared c3-parsing ...; do
@@ -831,7 +832,31 @@ done
 # 3. Done! Now link and build
 ```
 
-**When to use:** First time setup
+**When to use:**
+- First time setup (no repos exist)
+- Will skip existing repos (safe to re-run)
+
+**Note:** If repos already exist, use `./scripts/install-all.sh` instead (faster)
+
+---
+
+### 2b. install-all.sh
+
+**Purpose:** Install dependencies in existing repos (post-migration scenario)
+
+**What it does:**
+```bash
+# Install dependencies in each repo
+for repo in c3-shared c3-parsing ...; do
+  cd ../$repo
+  npm install
+done
+```
+
+**When to use:**
+- Repos already cloned (like after manual migration)
+- After pulling package.json changes
+- Faster than setup-dev.sh (skips clone step)
 
 ---
 
